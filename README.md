@@ -1,6 +1,22 @@
 # networkcheck.sh
 Linux network check script (sh/bash) - to find configuration or network problems
 
+Usage:
+
+	### Program: networkcheck by peter@forret.com
+	### Version: v1.0 - 2018-06-01 18:35
+	### Usage: networkcheck [-h] [-q] [-v] [-f] [-r] [-t <tmpdir>] [-d <domain>] [-n <ns>] [-p <port>] <action>
+	### Flags, options and parameters:
+	    -h|--help      : [flag] show usage [default: off]
+	    -q|--quiet     : [flag] no output [default: off]
+	    -v|--verbose   : [flag] output more [default: off]
+	    -f|--force     : [flag] do not ask for confirmation [default: off]
+	    -r|--rx        : [flag] check for tx/rx traffic too [default: off]
+	    -t|--tmpdir <val>: [optn] folder for temp files  [default: /tmp/networkcheck]
+	    -d|--domain <val>: [optn] domain to check for  [default: www.google.com]
+	    -n|--ns <val>: [optn] nameserver to use as fallback  [default: 8.8.8.8]
+	    -p|--port <val>: [optn] portto check for  [default: 80]
+	    <action>  : [parameter] action to perform: CHECK/...
 
 Command:
 
