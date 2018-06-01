@@ -3,9 +3,11 @@ Linux network check script (sh/bash) - to find configuration or network problems
 
 
 Command:
+
 	./networkcheck.sh  CHECK
 
 Results:
+
 	##### 1. check network cards
 	 ___  This system has a default route, interface <eth0>
 	 ___  Loopback interface is working properly
