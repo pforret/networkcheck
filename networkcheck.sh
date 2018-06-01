@@ -31,9 +31,7 @@ echo -n "
 flag|h|help|show usage
 flag|q|quiet|no output
 flag|v|verbose|output more
-flag|f|force|do not ask for confirmation
 flag|r|rx|check for tx/rx traffic too
-option|t|tmpdir|folder for temp files|$TEMP/$PROGNAME
 option|d|domain|domain to check for|www.google.com
 option|n|ns|nameserver to use as fallback|8.8.8.8
 option|p|port|portto check for|80
