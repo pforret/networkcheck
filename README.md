@@ -1,5 +1,5 @@
 # networkcheck.sh
-Linux network check script (sh/bash)
+Linux network check script (sh/bash) - to find configuration or network problems
 
 Usage: ./networkcheck.sh  CHECK
 
