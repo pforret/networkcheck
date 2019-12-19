@@ -93,9 +93,9 @@ rollback()  { die ; }
 trap rollback INT TERM EXIT
 safe_exit() { trap - INT TERM EXIT ; exit ; }
 
-die()     { out " \033[1;41m[!]\033[0m: $@" >&2; safe_exit; }             # die with error message
-alert()   { out " \033[1;31m[?]\033[0m  $@" >&2 ; }                       # print error and continue
-success() { out " \033[1;32m___\033[0m  $@"; }
+die()     { out " * \033[1;41m[!]\033[0m ** $@" >&2; safe_exit; }             # die with error message
+alert()   { out " * \033[1;31m[ ]\033[0m !! $@" >&2 ; }                       # print error and continue
+success() { out " * \033[1;32m[x]\033[0m .. $@"; }
 log()     { [[ $verbose -gt 0 ]] && out "\033[1;33m# $@\033[0m";}
 notify()  { [[ $? == 0 ]] && success "$@" || alert "$@"; }
 escape()  { echo $@ | sed 's/\//\\\//g' ; }
@@ -440,7 +440,7 @@ check_alldns(){
   nsok=0
   nameservers=$( cat /etc/resolv.conf | grep nameserver | awk '{print $2}')
   if ! check_ns $ns ; then
-    alert "ERR: DNS <$ns>: cannot resolve <$domain> (use other domain!)"
+    alert "ERR: DNS <$ns>: cannot resolve <$domain>"
     problems_found=$(expr $problems_found + 1)
     return 1    
   fi
@@ -470,7 +470,7 @@ check_conn () {
     alert "WARN: Host <$domain>: cannot be reached by ICMP ping"
     problems_found=$(expr $problems_found + 1)
   else
-    log "Host <$domain>: can be reached by ICMP ping"
+    success "Host <$domain>: can be reached by ICMP ping"
   fi
 # Check web access, using nc
   httpversion=$(echo -e "HEAD / HTTP/1.0\n\n" | nc $domain $port 2>/dev/null  | grep HTTP)
@@ -482,6 +482,13 @@ check_conn () {
   fi
 }
 
+chapter () {
+	out "\n### $1"
+	if [[ "$2" != "" ]] ; then
+		out "    -- $2"
+	fi
+
+}
 ####################################################################################
 ## Put your main script here
 ####################################################################################
@@ -495,23 +502,23 @@ main() {
     action=$(ucase $action)
     case $action in
     CHECK )
-        out "##### 1. check network cards"
+        chapter "CHECK NETWORK CARDS" "is your machine connected via wifi or cable?"
         [[ $fatal_problem -eq 0 ]] && default_interface
         [[ $fatal_problem -eq 0 ]] && check_local
 
-        out "##### 2. check network connections"
+        chapter "CHECK NETWORK CONNECTIONS" "does your gateway respond?"
         [[ $fatal_problem -eq 0 ]] && check_allif
 
-        out "##### 3. check DNS resolution"
+        chapter "CHECK DNS RESOLUTION" "can you reach the internet?"
         [[ $fatal_problem -eq 0 ]] && check_alldns
 
-        out "##### 4. check HTTP traffic"
+        chapter "CHECK HTTP TRAFFIC" "can you access the web?"
         [[ $fatal_problem -eq 0 ]] && check_conn
         
-        out "##### Problems found: $problems_found"
+        chapter "PROBLEMS FOUND: $problems_found" ""
         ;;
     *)
-        die "Action [$action] not recognized"
+        die "\nAction [$action] not recognized"
     esac
 }
 
