@@ -1,7 +1,8 @@
 # networkcheck.sh
-Linux network check script (sh/bash) - to find configuration or network problems
+* Linux network check script (sh/bash) - to find configuration or network problems
+* based on Bash Boilerplate https://github.com/pforret/bash-boilerplate
 
-Usage: ./networkcheck.sh  CHECK
+  Usage: ./networkcheck.sh  CHECK
 
 ## 1. check network cards
 
